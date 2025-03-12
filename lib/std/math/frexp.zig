@@ -7,7 +7,7 @@ const expectApproxEqAbs = std.testing.expectApproxEqAbs;
 pub fn Frexp(comptime T: type) type {
     return struct {
         significand: T,
-        exponent: i32,
+        exponent: i16,
     };
 }
 
@@ -59,7 +59,7 @@ pub fn frexp(x: anytype) Frexp(@TypeOf(x)) {
                 v |= zero_exponent;
                 v |= math.shl(MantInt, m, shift);
 
-                result.exponent = exp_min - @as(i32, offset) + ones_place;
+                result.exponent = exp_min - @as(i16, offset) + ones_place;
             } else {
                 // +-0 = (+-0, 0)
                 result.exponent = 0;
@@ -77,7 +77,7 @@ pub fn frexp(x: anytype) Frexp(@TypeOf(x)) {
             // normal
             v &= not_exp;
             v |= zero_exponent;
-            result.exponent = @as(i32, e) - bias;
+            result.exponent = @as(i16, e) - bias;
         },
     }
 
